@@ -6,24 +6,26 @@
 
 ## 当前状态
 
-第一版开发中，尚未上线。
+第一版已上线：<https://machinegunlin.github.io/>
 
 ## 已完成
 
 - [x] 确认品牌、范围与公开仓库策略
 - [x] 创建 GitHub 公开仓库
 - [x] 建立项目原则与基础文档
-- [ ] 完成 Astro 页面、内容模型与视觉
-- [ ] 完成本地验证与视觉验收
-- [ ] 部署并验证 GitHub Pages
+- [x] 完成 Astro 页面、内容模型与视觉
+- [x] 完成本地验证与视觉验收
+- [x] 部署并验证 GitHub Pages
+
+## 线上入口
+
+- 网站：<https://machinegunlin.github.io/>
+- RSS：<https://machinegunlin.github.io/rss.xml>
+- Sitemap：<https://machinegunlin.github.io/sitemap-index.xml>
 
 ## TODO
 
-- 完成首页、文章列表、文章详情、关于页和 404
-- 完成 RSS、Sitemap、robots.txt、Open Graph 和基础 SEO
-- 完成中英文文章结构、翻译关联、数学公式与代码高亮
-- 完成桌面端、移动端、打印与无障碍检查
-- 配置 GitHub Pages 并验证线上地址
+- 持续发布文章并维护中英文内容
 - 用户确认社交账号和联系方式后补充关于页链接
 
 ## 技术栈
@@ -86,4 +88,4 @@ npm run new:post -- "文章标题" zh-CN
 
 `https://machinegunlin.github.io`
 
-首次部署需要在 GitHub 仓库的 **Settings → Pages → Build and deployment → Source** 中选择 **GitHub Actions**。第一版不绑定自定义域名。
+当前站点由 GitHub Actions 自动部署，第一版不绑定自定义域名。
