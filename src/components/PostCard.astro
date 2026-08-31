@@ -1,0 +1,44 @@
+---
+import type { Post } from '../lib/posts';
+import {
+  formatDate,
+  getCategoryPath,
+  getLanguageLabel,
+  getPostPath,
+  getReadingTime,
+  getTagPath,
+} from '../lib/posts';
+
+interface Props {
+  post: Post;
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { post, headingLevel = 'h2' } = Astro.props;
+const Heading = headingLevel;
+const readingTime = getReadingTime(post.body, post.data.lang);
+---
+
+<article class="post-card">
+  <div class="post-card-meta">
+    <a class="category-link" href={getCategoryPath(post.data.category)}>{post.data.category}</a>
+    <span aria-hidden="true">·</span>
+    <span>{getLanguageLabel(post.data.lang)}</span>
+  </div>
+  <Heading><a href={getPostPath(post)}>{post.data.title}</a></Heading>
+  <p>{post.data.description}</p>
+  <div class="post-card-details">
+    <time datetime={post.data.publishDate.toISOString()}>
+      {formatDate(post.data.publishDate, post.data.lang)}
+    </time>
+    <span aria-hidden="true">·</span>
+    <span>{readingTime} 分钟阅读</span>
+  </div>
+  {post.data.tags.length > 0 && (
+    <ul class="tag-list" aria-label="标签">
+      {post.data.tags.map((tag) => (
+        <li><a href={getTagPath(tag)}>#{tag}</a></li>
+      ))}
+    </ul>
+  )}
+</article>

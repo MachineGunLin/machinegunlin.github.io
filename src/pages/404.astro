@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="页面没有找到" description="这个页面不存在。" canonicalPath="/404.html">
+  <section class="shell not-found">
+    <p class="error-code">404 / B?</p>
+    <h1>这里什么都没有</h1>
+    <p>可能是链接写错了，也可能是页面搬过家。</p>
+    <a href="/">回到首页 →</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding-block: clamp(90px, 18vw, 190px);
+  }
+
+  .error-code {
+    color: var(--accent-strong);
+    font-family: var(--mono);
+    font-size: 14px;
+  }
+
+  .not-found h1 {
+    margin-bottom: 14px;
+    font-size: clamp(2.4rem, 7vw, 5rem);
+  }
+
+  .not-found p:not(.error-code) {
+    color: var(--ink-soft);
+  }
+</style>

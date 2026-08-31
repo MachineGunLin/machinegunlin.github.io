@@ -1,0 +1,24 @@
+---
+import PostPage from '../../components/PostPage.astro';
+import { getPostSlug, getPublishedPosts, type Post } from '../../lib/posts';
+
+interface Props {
+  post: Post;
+  allPosts: Post[];
+}
+
+export async function getStaticPaths() {
+  const allPosts = await getPublishedPosts();
+
+  return allPosts
+    .filter((post) => post.data.lang === 'zh-CN')
+    .map((post) => ({
+      params: { slug: getPostSlug(post) },
+      props: { post, allPosts },
+    }));
+}
+
+const { post, allPosts } = Astro.props;
+---
+
+<PostPage post={post} allPosts={allPosts} />

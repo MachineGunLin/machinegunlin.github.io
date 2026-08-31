@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://machinegunlin.github.io/sitemap-index.xml

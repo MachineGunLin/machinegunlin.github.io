@@ -1,0 +1,24 @@
+---
+import PostCard from '../../components/PostCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedPosts } from '../../lib/posts';
+
+const posts = await getPublishedPosts();
+---
+
+<BaseLayout title="文章" description="树哥的地下室全部文章，按发布时间排列。">
+  <section class="shell page-section">
+    <header class="page-header">
+      <p class="eyebrow">Archive</p>
+      <h1>文章</h1>
+      <p class="lede">按发布时间排列。分类、标签和语言会标在每篇文章旁边。</p>
+    </header>
+    {posts.length > 0 ? (
+      <ul class="post-list">
+        {posts.map((post) => <li><PostCard post={post} /></li>)}
+      </ul>
+    ) : (
+      <p class="empty-state">暂时还没有公开文章。</p>
+    )}
+  </section>
+</BaseLayout>

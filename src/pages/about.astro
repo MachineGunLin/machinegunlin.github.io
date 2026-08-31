@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="关于" description="关于林榕健和树哥的地下室。">
+  <section class="shell page-section about-page">
+    <header class="page-header">
+      <p class="eyebrow">About</p>
+      <h1>关于</h1>
+      <p class="lede">我是林榕健（Charles Lin），复旦硕士，前 AI Infra 工程师，现在是全职独立开发者。</p>
+    </header>
+
+    <div class="about-grid">
+      <div class="about-copy">
+        <h2>我在做什么</h2>
+        <p>我正在学习 AI 和数学，也在持续做独立产品。这个博客会记录学习过程，以及产品从需求、开发、上架到 Marketing 和复盘的全过程。</p>
+
+        <h2>公开产品</h2>
+        <ul>
+          <li>光阴账</li>
+          <li>靠岸</li>
+        </ul>
+        <p>产品详情会在内容确认公开后再补充。</p>
+
+        <h2>联系与社交账号</h2>
+        <p class="todo-note">TODO：社交账号和联系方式尚未确认，确认后补充链接。</p>
+      </div>
+
+      <aside class="about-card">
+        <span aria-hidden="true">树 / B1</span>
+        <p>“树哥”来自名字里的“榕”。“地下室”来自《地下室手记》，但这里不是阴暗的地下室，更像一间安静的书房。</p>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-page {
+    max-width: 960px;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 650px) minmax(180px, 250px);
+    gap: 72px;
+    align-items: start;
+  }
+
+  .about-copy h2 {
+    margin: 2.2em 0 0.5em;
+    font-size: 1.65rem;
+  }
+
+  .about-copy h2:first-child {
+    margin-top: 0;
+  }
+
+  .about-copy p,
+  .about-copy ul {
+    color: var(--ink-soft);
+  }
+
+  .todo-note {
+    padding: 14px 16px;
+    border-left: 3px solid var(--accent);
+    background: var(--paper-raised);
+  }
+
+  .about-card {
+    padding: 20px;
+    border: 1px solid var(--line);
+  }
+
+  .about-card span {
+    color: var(--accent-strong);
+    font-family: var(--serif);
+    font-size: 24px;
+  }
+
+  .about-card p {
+    margin: 24px 0 0;
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+
+  @media (max-width: 760px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+</style>

@@ -1,0 +1,128 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Post } from '../lib/posts';
+import {
+  findTranslation,
+  formatDate,
+  getCategoryPath,
+  getLanguageLabel,
+  getPostNeighbors,
+  getPostPath,
+  getReadingTime,
+  getTagPath,
+} from '../lib/posts';
+import TableOfContents from './TableOfContents.astro';
+
+interface Props {
+  post: Post;
+  allPosts: Post[];
+}
+
+const { post, allPosts } = Astro.props;
+const { Content, headings } = await render(post);
+const translation = findTranslation(allPosts, post);
+const { previousPost, nextPost } = getPostNeighbors(allPosts, post);
+const readingTime = getReadingTime(post.body, post.data.lang);
+const postPath = getPostPath(post);
+const alternateLinks = [
+  { lang: post.data.lang, href: postPath },
+  ...(translation ? [{ lang: translation.data.lang, href: getPostPath(translation) }] : []),
+];
+
+const copy = post.data.lang === 'en'
+  ? {
+      category: 'Category',
+      published: 'Published',
+      updated: 'Updated',
+      reading: `${readingTime} min read`,
+      translation: '阅读中文版',
+      back: 'Back to all posts',
+      previous: 'Previous',
+      next: 'Next',
+    }
+  : {
+      category: '分类',
+      published: '发布于',
+      updated: '更新于',
+      reading: `${readingTime} 分钟阅读`,
+      translation: 'Read in English',
+      back: '返回文章列表',
+      previous: '上一篇',
+      next: '下一篇',
+    };
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  lang={post.data.lang}
+  canonicalPath={postPath}
+  alternateLinks={alternateLinks}
+  type="article"
+  publishedTime={post.data.publishDate.toISOString()}
+  updatedTime={post.data.updatedDate?.toISOString()}
+>
+  <article class="article-shell">
+    <header class="article-header">
+      <p class="eyebrow">
+        {copy.category} · <a class="category-link" href={getCategoryPath(post.data.category)}>{post.data.category}</a>
+      </p>
+      <h1>{post.data.title}</h1>
+      <p class="article-summary">{post.data.description}</p>
+      <div class="article-meta">
+        <span>{getLanguageLabel(post.data.lang)}</span>
+        <span>
+          {copy.published}
+          <time datetime={post.data.publishDate.toISOString()}>{formatDate(post.data.publishDate, post.data.lang)}</time>
+        </span>
+        {post.data.updatedDate && (
+          <span>
+            {copy.updated}
+            <time datetime={post.data.updatedDate.toISOString()}>{formatDate(post.data.updatedDate, post.data.lang)}</time>
+          </span>
+        )}
+        <span>{copy.reading}</span>
+      </div>
+      {post.data.tags.length > 0 && (
+        <ul class="tag-list" aria-label={post.data.lang === 'en' ? 'Tags' : '标签'}>
+          {post.data.tags.map((tag) => (
+            <li><a href={getTagPath(tag)}>#{tag}</a></li>
+          ))}
+        </ul>
+      )}
+      {translation && (
+        <a class="translation-link" href={getPostPath(translation)} hreflang={translation.data.lang}>
+          {copy.translation} →
+        </a>
+      )}
+    </header>
+
+    <div class="article-grid">
+      <TableOfContents headings={headings} />
+      <div class="article-body">
+        <Content />
+      </div>
+    </div>
+
+    <footer class="article-footer">
+      <a href="/posts/">← {copy.back}</a>
+      {(previousPost || nextPost) && (
+        <nav class="post-navigation" aria-label={post.data.lang === 'en' ? 'Post navigation' : '文章导航'}>
+          {previousPost ? (
+            <a href={getPostPath(previousPost)}>
+              <span>← {copy.previous}</span>
+              <strong>{previousPost.data.title}</strong>
+            </a>
+          ) : <span />}
+          {nextPost && (
+            <a href={getPostPath(nextPost)}>
+              <span>{copy.next} →</span>
+              <strong>{nextPost.data.title}</strong>
+            </a>
+          )}
+        </nav>
+      )}
+    </footer>
+  </article>
+</BaseLayout>

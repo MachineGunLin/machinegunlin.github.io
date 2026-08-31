@@ -1,0 +1,40 @@
+---
+import PostCard from '../../components/PostCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedPosts } from '../../lib/posts';
+import { CATEGORY_META, type CategoryName } from '../../site.config';
+
+interface Props {
+  category: CategoryName;
+}
+
+export function getStaticPaths() {
+  return (Object.entries(CATEGORY_META) as [CategoryName, (typeof CATEGORY_META)[CategoryName]][]).map(
+    ([category, meta]) => ({
+      params: { category: meta.slug },
+      props: { category },
+    }),
+  );
+}
+
+const { category } = Astro.props;
+const posts = (await getPublishedPosts()).filter((post) => post.data.category === category);
+const meta = CATEGORY_META[category];
+---
+
+<BaseLayout title={category} description={meta.description}>
+  <section class="shell page-section">
+    <header class="page-header">
+      <p class="eyebrow">Category</p>
+      <h1>{category}</h1>
+      <p class="lede">{meta.description}</p>
+    </header>
+    {posts.length > 0 ? (
+      <ul class="post-list">
+        {posts.map((post) => <li><PostCard post={post} /></li>)}
+      </ul>
+    ) : (
+      <p class="empty-state">这个分类暂时还没有文章。</p>
+    )}
+  </section>
+</BaseLayout>

@@ -1,0 +1,236 @@
+---
+import PostCard from '../components/PostCard.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCategoryPath, getPublishedPosts } from '../lib/posts';
+import { CATEGORY_META, SITE, type CategoryName } from '../site.config';
+
+const recentPosts = (await getPublishedPosts()).slice(0, 5);
+const directions = Object.entries(CATEGORY_META) as [CategoryName, (typeof CATEGORY_META)[CategoryName]][];
+---
+
+<BaseLayout>
+  <section class="home-hero shell">
+    <div class="hero-copy">
+      <p class="eyebrow">{SITE.englishTitle}</p>
+      <h1>{SITE.title}</h1>
+      <p class="hero-subtitle">{SITE.subtitle}</p>
+      <p class="hero-intro">
+        我是林榕健，之前做 AI Infra，现在是全职独立开发者。这里用来整理正在学的 AI 和数学，也记录产品从需求、开发到上架和复盘的过程。
+      </p>
+      <div class="hero-actions">
+        <a class="primary-link" href="/posts/">阅读文章</a>
+        <a href="/about/">关于我</a>
+      </div>
+    </div>
+    <aside class="basement-note" aria-label="网站说明">
+      <span class="note-number">B1</span>
+      <p>一个安静的个人空间。中文为主，适合的时候也写英文。</p>
+    </aside>
+  </section>
+
+  <section class="shell home-section" aria-labelledby="directions-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Topics</p>
+        <h2 id="directions-title">四条内容线索</h2>
+      </div>
+      <p>学习、做产品和生活中的笔记会在这里慢慢长出来。</p>
+    </div>
+    <div class="direction-grid">
+      {directions.map(([name, meta], index) => (
+        <a class="direction-card" href={getCategoryPath(name)}>
+          <span>0{index + 1}</span>
+          <h3>{name}</h3>
+          <p>{meta.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="shell home-section" aria-labelledby="recent-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Latest notes</p>
+        <h2 id="recent-title">最近文章</h2>
+      </div>
+      <a href="/posts/">查看全部 →</a>
+    </div>
+    {recentPosts.length > 0 ? (
+      <ul class="post-list">
+        {recentPosts.map((post) => <li><PostCard post={post} /></li>)}
+      </ul>
+    ) : (
+      <p class="empty-state">第一篇文章还在路上。</p>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .home-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 760px) minmax(180px, 280px);
+    gap: clamp(48px, 9vw, 120px);
+    align-items: end;
+    padding-block: clamp(72px, 12vw, 144px) 96px;
+  }
+
+  .hero-copy h1 {
+    margin-bottom: 8px;
+  }
+
+  .hero-subtitle {
+    margin: 0 0 32px;
+    color: var(--accent-strong);
+    font-family: var(--serif);
+    font-size: clamp(1.2rem, 2.7vw, 1.65rem);
+  }
+
+  .hero-intro {
+    max-width: 650px;
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 22px;
+    align-items: center;
+    margin-top: 32px;
+  }
+
+  .primary-link {
+    display: inline-block;
+    padding: 9px 18px;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: var(--paper-raised);
+    text-decoration: none;
+  }
+
+  .primary-link:hover {
+    background: var(--accent-strong);
+    color: var(--paper-raised);
+  }
+
+  .basement-note {
+    padding: 20px 0 4px 20px;
+    border-left: 1px solid var(--line);
+  }
+
+  .basement-note p {
+    margin: 8px 0 0;
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+
+  .note-number {
+    color: var(--accent-strong);
+    font-family: var(--serif);
+    font-size: 32px;
+  }
+
+  .home-section {
+    padding-block: 68px;
+    border-top: 1px solid var(--line);
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 36px;
+    margin-bottom: 32px;
+  }
+
+  .section-heading h2 {
+    margin: 0;
+    font-size: clamp(1.9rem, 4vw, 2.7rem);
+  }
+
+  .section-heading > p {
+    max-width: 410px;
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+
+  .direction-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+
+  .direction-card {
+    min-height: 210px;
+    padding: 22px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    text-decoration: none;
+    transition: background-color 140ms ease;
+  }
+
+  .direction-card:hover {
+    background: var(--paper-raised);
+    color: var(--ink);
+  }
+
+  .direction-card > span {
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  .direction-card h3 {
+    margin: 42px 0 8px;
+    font-size: 1.3rem;
+  }
+
+  .direction-card p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+
+  @media (max-width: 860px) {
+    .home-hero {
+      grid-template-columns: 1fr;
+      gap: 44px;
+      align-items: start;
+    }
+
+    .basement-note {
+      max-width: 420px;
+    }
+
+    .direction-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .home-hero {
+      padding-block: 56px 68px;
+    }
+
+    .section-heading {
+      align-items: start;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .direction-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .direction-card {
+      min-height: auto;
+    }
+
+    .direction-card h3 {
+      margin-top: 22px;
+    }
+  }
+</style>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="树哥的地下室">
+  <rect width="64" height="64" rx="8" fill="#f4f0e7" />
+  <rect x="7" y="7" width="50" height="50" rx="4" fill="none" stroke="#315b4a" stroke-width="2" />
+  <text x="32" y="43" fill="#1f4637" font-family="serif" font-size="34" text-anchor="middle">树</text>
+</svg>

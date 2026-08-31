@@ -1,0 +1,39 @@
+---
+import { SITE } from '../site.config';
+
+const pathname = Astro.url.pathname;
+
+const navItems = [
+  { href: '/', label: '首页' },
+  { href: '/posts/', label: '文章' },
+  { href: '/about/', label: '关于' },
+];
+
+const isActive = (href: string) =>
+  href === '/' ? pathname === href : pathname.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="shell header-inner">
+    <a class="wordmark" href="/" aria-label={`${SITE.title}首页`}>
+      <span class="wordmark-mark" aria-hidden="true">树</span>
+      <span class="wordmark-copy">
+        <strong>{SITE.title}</strong>
+        <small>{SITE.englishTitle}</small>
+      </span>
+    </a>
+
+    <nav aria-label="主导航">
+      <ul class="nav-list">
+        {navItems.map((item) => (
+          <li>
+            <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+        <li><a href="/rss.xml">RSS</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>

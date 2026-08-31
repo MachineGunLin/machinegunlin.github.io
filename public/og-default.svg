@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">树哥的地下室</title>
+  <desc id="description">AI、数学、独立开发与生活笔记</desc>
+  <rect width="1200" height="630" fill="#f4f0e7" />
+  <rect x="72" y="72" width="1056" height="486" fill="none" stroke="#d7d0c3" stroke-width="2" />
+  <rect x="118" y="126" width="92" height="92" fill="none" stroke="#315b4a" stroke-width="3" />
+  <text x="164" y="190" fill="#1f4637" font-family="serif" font-size="58" text-anchor="middle">树</text>
+  <text x="118" y="330" fill="#292c29" font-family="serif" font-size="78">树哥的地下室</text>
+  <text x="118" y="402" fill="#315b4a" font-family="sans-serif" font-size="32">AI、数学、独立开发与生活笔记</text>
+  <text x="118" y="500" fill="#646760" font-family="serif" font-size="24">Notes from Shu's Basement</text>
+</svg>
