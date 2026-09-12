@@ -44,6 +44,7 @@ assert(articleHtml.includes('<html lang="zh-CN">'), '中文文章没有设置正
 assert(articleHtml.includes('class="table-of-contents"'), '中文文章没有生成目录。');
 assert(articleHtml.includes('rel="canonical"'), '文章缺少 canonical。');
 assert(articleHtml.includes('hreflang="zh-CN"'), '文章缺少中文 hreflang。');
+assert(/约 [\d,]+ 字 · \d+ 分钟阅读/u.test(articleHtml), '中文文章没有显示字数和阅读时间。');
 
 const rssXml = await readFile(path.join(root, 'rss.xml'), 'utf8');
 assert(rssXml.includes('欢迎来到树哥的地下室'), 'RSS 没有包含欢迎文章。');

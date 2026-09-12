@@ -9,7 +9,7 @@ import {
   getLanguageLabel,
   getPostNeighbors,
   getPostPath,
-  getReadingTime,
+  getPostStats,
   getTagPath,
 } from '../lib/posts';
 import TableOfContents from './TableOfContents.astro';
@@ -23,7 +23,8 @@ const { post, allPosts } = Astro.props;
 const { Content, headings } = await render(post);
 const translation = findTranslation(allPosts, post);
 const { previousPost, nextPost } = getPostNeighbors(allPosts, post);
-const readingTime = getReadingTime(post.body, post.data.lang);
+const { minutes: readingTime, wordCount } = getPostStats(post.body, post.data.lang);
+const formattedWordCount = wordCount.toLocaleString(post.data.lang === 'en' ? 'en' : 'zh-CN');
 const postPath = getPostPath(post);
 const alternateLinks = [
   { lang: post.data.lang, href: postPath },
@@ -35,7 +36,7 @@ const copy = post.data.lang === 'en'
       category: 'Category',
       published: 'Published',
       updated: 'Updated',
-      reading: `${readingTime} min read`,
+      reading: `About ${formattedWordCount} words · ${readingTime} min read`,
       translation: '阅读中文版',
       back: 'Back to all posts',
       previous: 'Previous',
@@ -45,7 +46,7 @@ const copy = post.data.lang === 'en'
       category: '分类',
       published: '发布于',
       updated: '更新于',
-      reading: `${readingTime} 分钟阅读`,
+      reading: `约 ${formattedWordCount} 字 · ${readingTime} 分钟阅读`,
       translation: 'Read in English',
       back: '返回文章列表',
       previous: '上一篇',

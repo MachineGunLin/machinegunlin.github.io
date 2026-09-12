@@ -3,6 +3,11 @@ import { CATEGORY_META, type CategoryName, type PostLanguage } from '../site.con
 
 export type Post = CollectionEntry<'posts'>;
 
+export interface PostStats {
+  wordCount: number;
+  minutes: number;
+}
+
 export async function getPublishedPosts(): Promise<Post[]> {
   const posts = await getCollection('posts', ({ data }) => !data.draft);
 
@@ -31,7 +36,7 @@ export function getTagPath(tag: string): string {
   return `/tags/${encodeURIComponent(tag)}/`;
 }
 
-export function getReadingTime(body: string | undefined, lang: PostLanguage): number {
+export function getPostStats(body: string | undefined, lang: PostLanguage): PostStats {
   const content = body ?? '';
   const cjkCharacters = content.match(/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/gu)?.length ?? 0;
   const latinWords = content
@@ -39,7 +44,14 @@ export function getReadingTime(body: string | undefined, lang: PostLanguage): nu
     .match(/[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu)?.length ?? 0;
   const minutes = cjkCharacters / 300 + latinWords / (lang === 'en' ? 220 : 200);
 
-  return Math.max(1, Math.ceil(minutes));
+  return {
+    wordCount: cjkCharacters + latinWords,
+    minutes: Math.max(1, Math.ceil(minutes)),
+  };
+}
+
+export function getReadingTime(body: string | undefined, lang: PostLanguage): number {
+  return getPostStats(body, lang).minutes;
 }
 
 export function formatDate(date: Date, lang: PostLanguage): string {
