@@ -1,6 +1,6 @@
 ---
 title: "Stanford CS146S Week 5：AI 增强命令行与终端自动化"
-description: "从 AI 为什么回到终端，到 Warp 与 CLI Agent 的差别，梳理 Block、Workflow、多模型、可视化 diff 等能力，并记录因预算取舍放弃 Warp Agent 作业的过程。"
+description: "从 AI 为什么回到终端，到 Warp 与 CLI Agent 的差别，梳理 Block、Workflow、多模型和可视化 diff 等能力。"
 publishDate: 2026-09-23
 updatedDate: 2026-09-23
 tags:
@@ -90,14 +90,3 @@ Claude Code、Codex 这类工具走的是另一条路：一个装在终端里的
 这个差距不是模型能力上的。同一个 Sentry 报错，Warp 自己做过一次对照测试：Claude Code（用 Sonnet）花了 2-4 分钟修完，还留了点没删干净的冗余逻辑；Warp（用 GPT-5）平均 1 分 20 秒，输出更干净。两边比的不是谁的模型更聪明，是从发现问题到确认改对，中间要绕多少步。
 
 **参考**：[Warp 文档](https://docs.warp.dev/)、[Warp vs Claude Code](https://docs.warp.dev/guides/agent-workflows/warp-vs-claude-code/)、[How Warp Uses Warp](https://www.warp.dev/blog/how-warp-uses-warp)、[Ghostty GitHub](https://github.com/ghostty-org/ghostty)
-
-## Assignment
-
-题目：*Agentic Development with Warp*。跟 Week 4 是同一个脚手架应用（FastAPI + SQLite + 静态前端），但这次要求用 Warp 而不是纯 Claude Code 做自动化，硬性要求两类都要有：
-
-- **Warp Drive**（保存的 prompt / 规则 / MCP server 集成），至少 1 个
-- **多 Agent 并发工作流**（在 Warp 的不同标签页里，多个 Agent 同时处理独立任务，用 `git worktree` 避免互相冲突），至少 1 个
-
-限定只能改 `week5/` 内部，不能动其他周的内容。`writeup.md` 要写清楚：每个自动化的目标、输入输出、步骤、改造前后对比、每个任务用了什么自主程度的权限、多 Agent 部分的角色分工和并发情况，以及具体解决了什么痛点。
-
-这周最终不做这个 Assignment。实际测试中，Warp 原生 Agent 对当前免费账号显示 `Out of credits`。BYOK 虽然可行，但意味着要再接一套 API 计费路径；已有 Codex 和 Claude 的订阅后，我不想只为这项作业再增加费用和工具链。Warp 会继续作为日常终端使用，但这周不产出 Warp Drive / 多 Agent 的作业代码，精力转向把阅读和真实踩坑经历写成这篇文章。
